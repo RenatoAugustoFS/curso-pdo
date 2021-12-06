@@ -7,9 +7,7 @@ require_once "vendor/autoload.php";
 
 $pdo = ConnectionCreator::createConnection();
 
-$id = $argv[1];
-$studentRepository = new PdoStudentRepository($pdo);
+$studentsRepository = new PdoStudentRepository($pdo);
+$students = $studentsRepository->allStudents();
 
-if($studentRepository->remove($id)){
-    echo "Aluno removido!";
-}
+var_dump($students);

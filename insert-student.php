@@ -2,6 +2,7 @@
 
 use Alura\Pdo\Domain\Model\Student;
 use Alura\Pdo\Infrastructure\Persistence\ConnectionCreator;
+use Alura\Pdo\Infrastructure\Repository\PdoStudentRepository;
 
 require_once "vendor/autoload.php";
 
@@ -11,9 +12,8 @@ $name = $argv[1];
 $birth_date = $argv[2];
 
 $student = new Student(null, $name, new DateTimeImmutable($birth_date));
-$sqlInsert = ("INSERT INTO students (name, birth_date) VALUES (:name ,:birth_date);");
-$stmt = $pdo->prepare($sqlInsert);
-$stmt->bindValue(':name', $student->name());
-$stmt->bindValue(':birth_date', $student->birthDate()->format('d/m/Y'));
+$studentRepository = new PdoStudentRepository($pdo);
 
-$stmt->execute();
+if($studentRepository->save($student)){
+    echo "Aluno inserido com sucesso";
+}
