@@ -6,8 +6,6 @@ use Alura\Pdo\Infrastructure\Repository\PdoStudentRepository;
 require_once "vendor/autoload.php";
 
 $pdo = ConnectionCreator::createConnection();
-
-$studentsRepository = new PdoStudentRepository($pdo);
-$students = $studentsRepository->allStudents();
-
+$repository = new PdoStudentRepository($pdo);
+$students = $repository->studentsWithPhones();
 var_dump($students);

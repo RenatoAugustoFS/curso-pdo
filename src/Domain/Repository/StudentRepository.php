@@ -13,4 +13,6 @@ interface StudentRepository
     public function save(Student $student): bool;
 
     public function remove(int $id): bool;
+
+    public function studentsWithPhones(): array;
 }

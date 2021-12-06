@@ -10,10 +10,20 @@ $pdo = ConnectionCreator::createConnection();
 
 $name = $argv[1];
 $birth_date = $argv[2];
+$name2 = $argv[3];
+$birth_date2 = $argv[4];
 
 $student = new Student(null, $name, new DateTimeImmutable($birth_date));
-$studentRepository = new PdoStudentRepository($pdo);
+$anotherStudent = new Student(null, $name2, new DateTimeImmutable($birth_date2));
 
-if($studentRepository->save($student)){
-    echo "Aluno inserido com sucesso";
+$pdo->beginTransaction();
+
+try {
+    $studentRepository = new PdoStudentRepository($pdo);
+    $studentRepository->save($student);
+    $studentRepository->save($anotherStudent);
+    $pdo->commit();
+} catch (PDOException $exception){
+    echo $exception->getMessage();
+    $pdo->rollBack();
 }
